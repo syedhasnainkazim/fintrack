@@ -8,7 +8,7 @@ services:
   - type: web
     name: fintrack
     env: node
-    buildCommand: npm --prefix server install && npm --prefix client install && npm --prefix client run build
+    buildCommand: bash build.sh
     startCommand: NODE_ENV=production node server/server.js
     healthCheckPath: /api/health
     envVars:

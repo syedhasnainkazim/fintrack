@@ -2,16 +2,19 @@
 set -e
 
 echo "==> Node: $(node --version) | npm: $(npm --version)"
-echo "==> PWD: $(pwd)"
+echo "==> Working dir: $(pwd)"
 
-echo "==> Installing server dependencies..."
-cd server && npm ci && cd ..
+echo "==> Installing root deps (includes vite)..."
+npm ci
 
-echo "==> Installing client dependencies..."
-cd client && npm ci
+echo "==> Installing server deps..."
+(cd server && npm ci)
 
-echo "==> Building client..."
-npm run build
+echo "==> Installing client deps..."
+(cd client && npm ci)
 
-echo "==> Build complete. Dist contents:"
-ls -la dist/
+echo "==> Building client with vite..."
+./node_modules/.bin/vite build client
+
+echo "==> Build complete"
+ls -la client/dist/

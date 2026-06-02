@@ -8,8 +8,7 @@ services:
   - type: web
     name: fintrack
     env: node
-    plan: free
-    buildCommand: npm install && cd server && npm install && cd ../client && npm install && npm run build
+    buildCommand: npm --prefix server install && npm --prefix client install && npm --prefix client run build
     startCommand: NODE_ENV=production node server/server.js
     healthCheckPath: /api/health
     envVars:

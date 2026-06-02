@@ -8,6 +8,7 @@ import { getCategoryInfo } from '../utils/constants';
 import StatCard from '../components/StatCard';
 import CashFlowChart from '../components/charts/CashFlowChart';
 import SpendingPieChart from '../components/charts/SpendingPieChart';
+import SpendingTrendsChart from '../components/charts/SpendingTrendsChart';
 import TransactionModal from '../components/TransactionModal';
 import toast from 'react-hot-toast';
 
@@ -116,6 +117,16 @@ export default function Dashboard() {
           <div className="h-56">
             <SpendingPieChart data={spending} />
           </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-semibold text-[#c9d1e0]">Spending Trends</h2>
+          <span className="text-xs text-[#606880]">Income vs expenses over time</span>
+        </div>
+        <div className="h-52">
+          <SpendingTrendsChart data={cashflow} />
         </div>
       </div>
 

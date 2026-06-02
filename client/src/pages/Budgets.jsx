@@ -6,6 +6,7 @@ import { getCategoryInfo } from '../utils/constants';
 import { useAuth } from '../context/AuthContext';
 import BudgetModal from '../components/BudgetModal';
 import ConfirmModal from '../components/ConfirmModal';
+import BudgetAllocationChart from '../components/charts/BudgetAllocationChart';
 import toast from 'react-hot-toast';
 
 export default function Budgets() {
@@ -62,8 +63,8 @@ export default function Budgets() {
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-[#e2eaf6]">Budgets</h1>
-          <p className="text-sm text-[#7b9ab2]">Track spending against monthly limits</p>
+          <h1 className="text-xl font-bold text-[#c9d1e0]">Budgets</h1>
+          <p className="text-sm text-[#606880]">Track spending against monthly limits</p>
         </div>
         <button onClick={() => { setEditBudget(null); setModal(true); }} className="btn-primary">
           <Plus className="h-4 w-4" />
@@ -72,18 +73,30 @@ export default function Budgets() {
       </div>
 
       {!loading && budgets.length > 0 && (
-        <div className="grid gap-4 sm:grid-cols-3">
-          {[
-            { label: 'Total budgeted', value: formatCurrency(totalBudgeted, user?.currency), color: 'text-navy-400' },
-            { label: 'Total spent', value: formatCurrency(totalSpent, user?.currency), color: totalSpent > totalBudgeted ? 'text-rose-400' : 'text-emerald-400' },
-            { label: 'Remaining', value: formatCurrency(Math.max(totalBudgeted - totalSpent, 0), user?.currency), color: 'text-[#e2eaf6]' },
-          ].map((s) => (
-            <div key={s.label} className="card-sm">
-              <p className="text-xs text-[#7b9ab2] uppercase tracking-wide">{s.label}</p>
-              <p className={`mt-1.5 text-xl font-bold ${s.color}`}>{s.value}</p>
+        <>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              { label: 'Total budgeted', value: formatCurrency(totalBudgeted, user?.currency), color: 'text-[#4e7cf6]' },
+              { label: 'Total spent', value: formatCurrency(totalSpent, user?.currency), color: totalSpent > totalBudgeted ? 'text-[#e84057]' : 'text-[#18c997]' },
+              { label: 'Remaining', value: formatCurrency(Math.max(totalBudgeted - totalSpent, 0), user?.currency), color: 'text-[#c9d1e0]' },
+            ].map((s) => (
+              <div key={s.label} className="card-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-widest text-[#606880]">{s.label}</p>
+                <p className={`mt-1.5 text-xl font-bold ${s.color}`}>{s.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="card">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="font-semibold text-[#c9d1e0]">Budget Allocation</h2>
+              <span className="text-xs text-[#606880]">Spent vs. budgeted per category</span>
             </div>
-          ))}
-        </div>
+            <div style={{ height: `${Math.max(budgets.length * 52, 160)}px` }}>
+              <BudgetAllocationChart budgets={budgets} />
+            </div>
+          </div>
+        </>
       )}
 
       {loading ? (

@@ -4,6 +4,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const fs = require('fs');
+const db = require('./config/db');
 
 const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
@@ -65,7 +67,21 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
+async function migrate() {
+  const schema = fs.readFileSync(path.join(__dirname, 'db/schema.sql'), 'utf8');
+  await db.query(schema);
+  console.log('Database schema ready');
+}
+
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`FinTrack running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-});
+
+migrate()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`FinTrack running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
+    });
+  })
+  .catch((err) => {
+    console.error('Migration failed:', err);
+    process.exit(1);
+  });

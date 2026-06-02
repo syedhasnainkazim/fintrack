@@ -1,0 +1,25 @@
+databases:
+  - name: fintrack-db
+    databaseName: fintrack
+    user: fintrack
+    plan: free
+
+services:
+  - type: web
+    name: fintrack
+    env: node
+    plan: free
+    buildCommand: npm install && cd server && npm install && cd ../client && npm install && npm run build
+    startCommand: NODE_ENV=production node server/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fintrack-db
+          property: connectionString

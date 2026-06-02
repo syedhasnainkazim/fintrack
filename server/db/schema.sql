@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_transactions_user_date ON transactions(user_id, date DESC);
-CREATE INDEX idx_transactions_user_type ON transactions(user_id, type);
-CREATE INDEX idx_budgets_user ON budgets(user_id);
-CREATE INDEX idx_accounts_user ON accounts(user_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_user_date ON transactions(user_id, date DESC);
+CREATE INDEX IF NOT EXISTS idx_transactions_user_type ON transactions(user_id, type);
+CREATE INDEX IF NOT EXISTS idx_budgets_user ON budgets(user_id);
+CREATE INDEX IF NOT EXISTS idx_accounts_user ON accounts(user_id);

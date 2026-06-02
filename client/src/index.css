@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0d0e12;
+  --surface: #13151b;
+  --surface-elevated: #1a1d25;
+  --border: #242831;
+  --accent: #4e7cf6;
+  --green: #18c997;
+  --red: #e84057;
+  --yellow: #e8a020;
+  --text: #c9d1e0;
+  --text-muted: #606880;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a4565;
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-[#242831] bg-[#13151b] p-6;
+  }
+
+  .card-sm {
+    @apply rounded-xl border border-[#242831] bg-[#13151b] p-4;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-lg bg-[#4e7cf6] px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-lg border border-surface-border bg-surface-elevated px-4 py-2.5 text-sm font-medium text-[#c9d1e0] transition-all hover:border-[#4e7cf6]/40 hover:bg-[#1a1d25] active:scale-95;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2 rounded-lg border border-[#e84057]/20 px-4 py-2.5 text-sm font-medium text-[#e84057] transition-all hover:bg-[#e84057]/10 active:scale-95;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-surface-border bg-surface-elevated px-4 py-2.5 text-sm text-[#c9d1e0] placeholder-[#606880] outline-none transition-all focus:border-[#4e7cf6] focus:ring-2 focus:ring-[#4e7cf6]/15;
+  }
+
+  .label {
+    @apply block text-[11px] font-semibold uppercase tracking-widest text-[#606880] mb-1.5;
+  }
+
+  .badge-income {
+    @apply inline-flex items-center rounded px-2 py-0.5 text-xs font-medium bg-[#18c997]/10 text-[#18c997];
+  }
+
+  .badge-expense {
+    @apply inline-flex items-center rounded px-2 py-0.5 text-xs font-medium bg-[#e84057]/10 text-[#e84057];
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.modal-overlay {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
